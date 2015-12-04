@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 .project
 .classpath
@@ -5,3 +6,17 @@
 
 /target/
 .settings/
+=======
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+>>>>>>> 85a3dcd7cc688976ed0db2335e4abb3290411508
