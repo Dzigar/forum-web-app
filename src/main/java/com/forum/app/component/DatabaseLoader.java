@@ -12,7 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.forum.app.entity.User;
-import com.forum.app.repository.CrudService;
+import com.forum.app.service.CrudService;
 
 /**
  * Demo Data Loader

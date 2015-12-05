@@ -1,4 +1,4 @@
-package com.forum.app.repository;
+package com.forum.app.service;
 
 import java.util.HashMap;
 import java.util.Map;

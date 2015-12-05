@@ -13,8 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.forum.app.entity.User;
-import com.forum.app.repository.CrudService;
-import com.forum.app.repository.QueryParameters;
+import com.forum.app.service.CrudService;
+import com.forum.app.service.QueryParameters;
 
 /**
  * CustomAuthenticationProvider class
