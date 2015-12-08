@@ -20,22 +20,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		// Authentication
 		// Path "/" is allowed, every other must be authenticated
-		http.authorizeRequests().antMatchers("/").permitAll().anyRequest()
-				.authenticated();
+		http.authorizeRequests().antMatchers("/", "/signup").permitAll().anyRequest().authenticated();
 
 		// Login form
-		http.formLogin().loginPage("/login").usernameParameter("username")
-				.passwordParameter("password").defaultSuccessUrl("/home")
-				.failureUrl("/login?error").permitAll();
+		http.formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password")
+				.defaultSuccessUrl("/home").failureUrl("/login?error").permitAll();
 
 		// Logout
-		http.logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout")
-				.permitAll();
+		http.logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout").permitAll();
+
+		// disable csrf, add access denied page .
+		http.csrf().disable().exceptionHandling().accessDeniedPage("/403");
 	}
 
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth)
-			throws Exception {
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		// Database authentication provider
 		auth.authenticationProvider(authenticationProvider);
 	}

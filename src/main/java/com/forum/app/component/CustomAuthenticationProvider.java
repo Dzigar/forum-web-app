@@ -2,6 +2,8 @@ package com.forum.app.component;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -28,20 +30,27 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	@Autowired
 	private CrudService crudService;
 
+	private User user;
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
+
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
 		String username = authentication.getName();
 		String password = (String) authentication.getCredentials();
 
-		// User user = userRepository.findByUser(username);
-		User user = (User) crudService.findUniqueByNamedQuery(User.BY_USERNAME,
-				QueryParameters.with("username", username).parameters());
+		try {
+			user = (User) crudService.findUniqueByNamedQuery(User.BY_USERNAME,
+					QueryParameters.with("username", username).parameters());
+		} catch (Exception e) {
+			LOGGER.error(e.getLocalizedMessage());
+		}
 
 		if (user == null) {
 			throw new BadCredentialsException("User not found");
 		}
-		if (!new BCryptPasswordEncoder().matches(password, user.getPasswordHash())) {
+		if (!new BCryptPasswordEncoder().matches(password, user.getPassword())) {
 			throw new BadCredentialsException("Wrong password");
 		}
 

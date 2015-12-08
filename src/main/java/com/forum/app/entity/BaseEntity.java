@@ -31,7 +31,12 @@ public abstract class BaseEntity {
 	public BaseEntity() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
+	public BaseEntity(String name) {
+		this.name = name;
+		this.creationTime = new Date();
+	}
+
 	// getters & setters
 
 	public Long getId() {
@@ -79,11 +84,6 @@ public abstract class BaseEntity {
 		int result = 1;
 		result = (int) (PRIME * result + getId());
 		return result;
-	}
-
-	@Override
-	public String toString() {
-		return this.getClass().getSimpleName() + " [id=" + getId() + ", name=" + name + "]";
 	}
 
 }

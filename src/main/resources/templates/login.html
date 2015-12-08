@@ -2,15 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Login form</title>
+<link rel="stylesheet" href="css/login-page.css" />
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+<link href="css/styles.css" rel="stylesheet" />
+
 </head>
 <body>
-	<p th:if="${param.error}">Invalid credentials</p>
-	<p th:if="${param.logout}">Logged out</p>
+	<div class="container">
+		<form th:action="@{/login}" method="post" class="form-signin">
 
-	<form th:action="@{/login}" method="post">
-		<label>User Name:</label><input type="text" name="username" /><br />
-		<label>Password:</label><input type="password" name="password" /><br />
-		<input type="submit" value="Sign In" /><br />
-	</form>
+			<p th:if="${param.error}">Invalid credentials</p>
+			<p th:if="${param.logout}">Logged out</p>
+
+			<h2 class="form-signin-heading">Please sign in</h2>
+			<label class="sr-only">Email address</label> <input type="text"
+				name="username" class="form-control" placeholder="login"
+				required="required" autofocus="autofocus" /> <label class="sr-only">Password</label>
+			<input type="password" name="password" class="form-control"
+				placeholder="Password" required="required" />
+			<div>
+				<label> <a th:href="@{/signup}">Sing Up for free!</a>
+				</label>
+			</div>
+
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
+				in</button>
+		</form>
+	</div>
 </body>
 </html>

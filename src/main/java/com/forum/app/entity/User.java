@@ -10,14 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = User.ALL, query = "Select u from User u"),
-		@NamedQuery(name = User.BY_USERNAME, query = "Select u from User u where u.user = :username") })
+		@NamedQuery(name = User.BY_USERNAME, query = "Select u from User u where u.username = :username") })
 public class User {
 
 	public static final String ALL = "User.All";
@@ -27,7 +26,9 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String user;
+	private String username;
+
+	private String email;
 
 	private String password;
 
@@ -37,34 +38,71 @@ public class User {
 	public User() {
 	}
 
-	public User(String user, String password, List<GrantedAuthority> roles) {
-		this.user = user;
-		this.password = new BCryptPasswordEncoder().encode(password);
-		this.roles = roles;
+	public User(String username, String email, String password, List<GrantedAuthority> roles) {
+		this.username = username;
+		this.email = email;
+		this.setPassword(new BCryptPasswordEncoder().encode(password));
+		this.setRoles(roles);
 	}
 
 	// getters, setters
 
-	public String getUser() {
-		return user;
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	/**
+	 * @param email
+	 *            the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public String getPasswordHash() {
+	/**
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
+
+	/**
+	 * @param username
+	 *            the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
 		return password;
 	}
 
-	public void setPasswordHash(String passwordHash) {
-		this.password = passwordHash;
+	/**
+	 * @param password
+	 *            the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
+	/**
+	 * @return the roles
+	 */
 	public List<GrantedAuthority> getRoles() {
 		return roles;
 	}
 
+	/**
+	 * @param roles
+	 *            the roles to set
+	 */
 	public void setRoles(List<GrantedAuthority> roles) {
 		this.roles = roles;
 	}

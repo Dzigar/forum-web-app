@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.forum.app.entity.Section;
 import com.forum.app.service.CrudService;
 
 /**
@@ -19,9 +20,15 @@ import com.forum.app.service.CrudService;
 @Controller
 public class SecurityController {
 
+	@Autowired
+	CrudService crudService;
+
 	@RequestMapping("/")
 	public ModelAndView index() {
-		return new ModelAndView("index");
+
+		ModelAndView modelAndView = new ModelAndView("index");
+		modelAndView.addObject("sections", crudService.findByNamedQuery(Section.ALL));
+		return modelAndView;
 	}
 
 	@RequestMapping("/login")
@@ -32,15 +39,13 @@ public class SecurityController {
 	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
 	@RequestMapping("/home")
 	public ModelAndView home() {
-		
+
 		// Getting authentication attributes
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String name = auth.getName();
 		ModelAndView model = new ModelAndView("home").addObject("name", name);
 
-		if (auth.getAuthorities().contains(
-				new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+		if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
 			model = model.addObject("admin", true);
 		}
 		return model;
